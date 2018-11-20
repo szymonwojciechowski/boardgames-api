@@ -7,7 +7,7 @@ using BoardGames.DataAccess.Entities.Base;
 
 namespace BoardGames.DomainLogic.Services.Interfaces
 {
-    public interface IBaseService<T> where T : Entity
+    public interface IService<T> where T : Entity
     {
         Task<IEnumerable<T>> GetAsync();
 

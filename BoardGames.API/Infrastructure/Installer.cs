@@ -16,9 +16,9 @@ namespace BoardGames.Infrastructure
     {
         public static void ConfigureServices(IServiceCollection services)
         {
-            services.AddTransient<IBaseRepository<Game>, BaseRepository<Game>>();
-            services.AddTransient<IBaseService<Game>, BaseService<Game>>();
+            services.AddTransient<IUnitOfWork, UnitOfWork>();
             services.AddTransient<IGameService, GameService>();
+            services.AddTransient<IUserService, UserService>();
             services.AddTransient<IErrorHandler, ErrorHandler>();
         }
     }

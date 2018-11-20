@@ -16,11 +16,17 @@ namespace BoardGames.Infrastructure
             CreateMap<Game, GameResponseModel>();
             CreateMap<GameResponseModel, Game>();
 
-            CreateMap<UserModel, User>();
-            CreateMap<User, UserModel>();
+            CreateMap<UserRequestModel, User>();
+            CreateMap<User, UserRequestModel>();
 
-            CreateMap<UserManager<UserModel>, UserManager<User>>();
-            CreateMap<UserManager<User>, UserManager<UserModel>>();
+            CreateMap<UserResponseModel, User>();
+            CreateMap<User, UserResponseModel>();
+
+            CreateMap<RegisterRequestModel, User>();
+            CreateMap<User, RegisterRequestModel>();
+
+            //CreateMap<UserManager<UserRequestModel>, UserManager<User>>();
+            //CreateMap<UserManager<User>, UserManager<UserRequestModel>>();
         }
     }
 }

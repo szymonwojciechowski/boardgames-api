@@ -7,14 +7,15 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BoardGames.DataAccess.Contexts
 {
-    public class DataContext : IdentityDbContext<User>
+    public class DataContext : DbContext
     {
         public DataContext(DbContextOptions<DataContext> options) : base(options)
         {
         }
 
+
         public DbSet<Game> Games { get; set; }
         public DbSet<Meeting> Meetings { get; set; }
-
+        public DbSet<User> Users { get; set; }
     }
 }

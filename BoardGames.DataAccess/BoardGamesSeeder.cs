@@ -1,30 +1,27 @@
-﻿using System;
+﻿using BoardGames.DataAccess.Contexts;
+using BoardGames.DataAccess.Entities;
+using Microsoft.EntityFrameworkCore.Internal;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using BoardGames.DataAccess.Contexts;
-using BoardGames.DataAccess.Entities;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore.Internal;
 
 namespace BoardGames.DataAccess
 {
     public class BoardGamesSeeder
     {
         private readonly DataContext _context;
-        private readonly UserManager<User> _userManager;
 
-        public BoardGamesSeeder(DataContext context, UserManager<User> userManager)
+        public BoardGamesSeeder(DataContext context)
         {
             _context = context;
-            _userManager = userManager;
         }
 
-        public async Task Seed()
+        public void Seed()
         {
             _context.Database.EnsureCreated();
-            var user1 = await _userManager.FindByEmailAsync("szymon.wojciechowski27@gmail.com");
+            var user1 = _context.Users.SingleOrDefault(u => u.Email == "szymon.wojciechowski27@gmail.com");
             if (user1 == null)
             {
                 user1 = new User
@@ -32,15 +29,14 @@ namespace BoardGames.DataAccess
                     FirstName = "Szymon",
                     LastName = "Wojciechowski",
                     Email = "szymon.wojciechowski27@gmail.com",
-                    UserName = "szymek"
+                    Username = "szymek",
                 };
-                var result = await _userManager.CreateAsync(user1, "Admin123!");
-                if (result != IdentityResult.Success)
-                {
-                    throw new InvalidOperationException("Failed to create default user1");
-                }
+                CreatePasswordHash("admin", out var passwordHash, out var passwordSalt);
+                user1.PasswordHash = passwordHash;
+                user1.PasswordSalt = passwordSalt;
+                _context.Add(user1);
             }
-            var user2 = await _userManager.FindByEmailAsync("justyna.wojciechowska04@gmail.com");
+            var user2 = _context.Users.SingleOrDefault(u => u.Email == "justyna.wojciechowska04@gmail.com");
             if (user2 == null)
             {
                 user2 = new User
@@ -48,13 +44,13 @@ namespace BoardGames.DataAccess
                     FirstName = "Justyna    ",
                     LastName = "Wojciechowska",
                     Email = "justyna.wojciechowska04@gmail.com",
-                    UserName = "justynka"
+                    Username = "justynka"
                 };
-                var result = await _userManager.CreateAsync(user2, "Admin123!");
-                if (result != IdentityResult.Success)
-                {
-                    throw new InvalidOperationException("Failed to create default user2");
-                }
+
+                CreatePasswordHash("admin", out var passwordHash, out var passwordSalt);
+                user2.PasswordHash = passwordHash;
+                user2.PasswordSalt = passwordSalt;
+                _context.Add(user2);
             }
 
             if (!EnumerableExtensions.Any(_context.Games))
@@ -96,6 +92,18 @@ namespace BoardGames.DataAccess
             }
 
             _context.SaveChanges();
+        }
+
+        private static void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
+        {
+            if (password == null) throw new ArgumentNullException("password");
+            if (string.IsNullOrWhiteSpace(password)) throw new ArgumentException("Value cannot be empty or whitespace only string.", "password");
+
+            using (var hmac = new System.Security.Cryptography.HMACSHA512())
+            {
+                passwordSalt = hmac.Key;
+                passwordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(password));
+            }
         }
     }
 }

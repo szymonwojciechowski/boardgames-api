@@ -7,7 +7,7 @@ using BoardGames.DataAccess.Entities.Base;
 
 namespace BoardGames.DomainLogic.Repositories.Interfaces
 {
-    public interface IBaseRepository<T> where T : Entity
+    public interface IRepository<T> where T : Entity
     {
         Task<IEnumerable<T>> GetAll();
         Task<T> GetById(int id);

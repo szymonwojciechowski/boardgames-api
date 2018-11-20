@@ -8,12 +8,12 @@ using BoardGames.DomainLogic.Models;
 
 namespace BoardGames.DomainLogic.Services.Interfaces
 {
-    public interface IGameService
+    public interface IGameService : IService<Game>
     {
-        void AddOrUpdate(GameResponseModel entry);
-        Task<IEnumerable<GameResponseModel>> GetAsync();
-        Task<GameResponseModel> GetById(int id);
-        void Remove(int id);
-        IEnumerable<GameResponseModel> Where(Expression<Func<Game, bool>> exp);
+        //void AddOrUpdate(GameResponseModel entry);
+        //Task<IEnumerable<GameResponseModel>> GetAsync();
+        //Task<GameResponseModel> GetById(int id);
+        //void Remove(int id);
+        //IEnumerable<GameResponseModel> Where(Expression<Func<Game, bool>> exp);
     }
 }

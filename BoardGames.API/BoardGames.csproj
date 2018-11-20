@@ -3,6 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp2.1</TargetFramework>
     <RuntimeIdentifier>win10-x64</RuntimeIdentifier>
+    <!--<RuntimeIdentifier>osx.10.13-x64</RuntimeIdentifier>-->
   </PropertyGroup>
 
   <ItemGroup>
