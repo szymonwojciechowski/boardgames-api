@@ -31,7 +31,7 @@ namespace BoardGames.Controllers
         /// Get all games.
         /// </summary>
         [HttpGet]
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<IEnumerable<GameResponseModel>> GetAll()
         {
             //if (!string.IsNullOrEmpty(title))
@@ -46,7 +46,7 @@ namespace BoardGames.Controllers
         /// Get game with specific id.
         /// </summary>
         [HttpGet("{id:int}")]
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<GameResponseModel> Get(int id)
         {
             return _mapper.Map<Game, GameResponseModel>(await _gameService.GetById(id));

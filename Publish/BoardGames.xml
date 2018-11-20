@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>BoardGames</name>
+    </assembly>
+    <members>
+        <member name="M:BoardGames.Controllers.GamesController.GetAll">
+            <summary>
+            Get all games.
+            </summary>
+        </member>
+        <member name="M:BoardGames.Controllers.GamesController.Get(System.Int32)">
+            <summary>
+            Get game with specific id.
+            </summary>
+        </member>
+        <member name="M:BoardGames.Controllers.UsersController.GetAll(System.String)">
+            <summary>
+            Get all users
+            </summary>
+        </member>
+        <member name="M:BoardGames.Controllers.UsersController.Login(BoardGames.DomainLogic.Models.LoginRequestModel)">
+            <summary>
+            Get authentication token
+            </summary>
+        </member>
+        <member name="M:BoardGames.Controllers.UsersController.Register(BoardGames.DomainLogic.Models.RegisterRequestModel)">
+            <summary>
+            Register new user
+            </summary>
+        </member>
+    </members>
+</doc>

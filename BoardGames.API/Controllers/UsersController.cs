@@ -35,7 +35,7 @@ namespace BoardGames.Controllers
         /// Get all users
         /// </summary>
         [HttpGet]
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<IEnumerable<UserResponseModel>> GetAll(string title)
         {
             var results = await _userService.GetAsync();
