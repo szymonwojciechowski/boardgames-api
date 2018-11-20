@@ -14,7 +14,6 @@ using Microsoft.AspNetCore.Mvc;
 namespace BoardGames.Controllers
 {
     [Route("api/[controller]")]
-    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class GamesController : Controller
     {
         private readonly IGameService _gameService;
@@ -28,11 +27,12 @@ namespace BoardGames.Controllers
             _mapper = mapper;
         }
 
-
-        // GET: api/games
+        /// <summary>
+        /// Get all games.
+        /// </summary>
         [HttpGet]
-        [AllowAnonymous]
-        public async Task<IEnumerable<GameResponseModel>> Get(string title)
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        public async Task<IEnumerable<GameResponseModel>> GetAll()
         {
             //if (!string.IsNullOrEmpty(title))
             //{
@@ -42,8 +42,11 @@ namespace BoardGames.Controllers
             return results.Select(t => _mapper.Map<Game, GameResponseModel>(t));
         }
 
-        // GET: api/games/5
+        /// <summary>
+        /// Get game with specific id.
+        /// </summary>
         [HttpGet("{id:int}")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<GameResponseModel> Get(int id)
         {
             return _mapper.Map<Game, GameResponseModel>(await _gameService.GetById(id));

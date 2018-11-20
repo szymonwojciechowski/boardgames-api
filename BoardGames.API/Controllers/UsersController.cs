@@ -18,7 +18,6 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 namespace BoardGames.Controllers
 {
     [Route("api/[controller]")]
-    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class UsersController : Controller
     {
         private readonly IConfiguration _configuration;
@@ -32,16 +31,21 @@ namespace BoardGames.Controllers
             _mapper = mapper;
         }
 
+        /// <summary>
+        /// Get all users
+        /// </summary>
         [HttpGet]
-        [AllowAnonymous]
-        public async Task<IEnumerable<UserResponseModel>> Get(string title)
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        public async Task<IEnumerable<UserResponseModel>> GetAll(string title)
         {
             var results = await _userService.GetAsync();
             return results.Select(t => _mapper.Map<User, UserResponseModel>(t));
         }
 
+        /// <summary>
+        /// Get authentication token
+        /// </summary>
         [HttpPost, Route("login")]
-        [AllowAnonymous]
         public IActionResult Login([FromBody]LoginRequestModel model)
         {
             if (!ModelState.IsValid)
@@ -57,12 +61,16 @@ namespace BoardGames.Controllers
                     new Claim(JwtRegisteredClaimNames.UniqueName, user.Username)
                 };
 
-                var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Tokens:Key"]));
+                //var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Tokens:Key"]));
+                var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("this is my custom Secret key for authnetication"));
+
                 var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
                 var token = new JwtSecurityToken(
-                    _configuration["Tokens:Issuer"],
-                    _configuration["Tokens:Audience"],
+                    //_configuration["Tokens:Issuer"],
+                    //_configuration["Tokens:Audience"],
+                    "localhost",
+                    "localhost",
                     claims,
                     expires: DateTime.UtcNow.AddDays(20),
                     signingCredentials: creds
@@ -85,8 +93,10 @@ namespace BoardGames.Controllers
             }
         }
 
+        /// <summary>
+        /// Register new user
+        /// </summary>
         [HttpPost, Route("register")]
-        [AllowAnonymous]
         public IActionResult Register([FromBody] RegisterRequestModel model)
         {
             if (!ModelState.IsValid)
